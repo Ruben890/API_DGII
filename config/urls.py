@@ -8,10 +8,10 @@ schema_view = get_schema_view(
     openapi.Info(
         title="API DGII(no oficial)",
         default_version='v1',
-        description="API Description",
-        # terms_of_service="https://www.yourapp.com/terms/",
+        description="Esta API se encarga de descargar un archivo en formato TXT de la Dirección General de Impuestos Internos (DGII) y posteriormente lo procesa para almacenar su contenido en una base de datos.",
+        terms_of_service="https://github.com/Ruben890/API_DGII/tree/main/APIDGII",
         # contact=openapi.Contact(email="contact@yourapp.com"),
-        license=openapi.License(name="Darlin Ruben Nina C."),
+        license=openapi.License(name="Darlin Ruben Nina C." ),
     ),
     public=True,
     permission_classes=(permissions.AllowAny,),
