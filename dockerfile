@@ -1,5 +1,5 @@
-# Imagen base de Python
-FROM python:3.10
+# Utilizamos una imagen base más ligera, como alpine, en lugar de la imagen completa de Python
+FROM python:3.10-slim
 
 # Directorio de trabajo dentro del contenedor
 WORKDIR /app
@@ -8,11 +8,11 @@ WORKDIR /app
 COPY . /app
 
 # Instalar las dependencias del proyecto
-RUN pip install -r requirements.txt
-# Apply database migrations
-RUN python manage.py migrate
-# Exponer el puerto que utiliza tu aplicación de Django (por ejemplo, 8000)
-EXPOSE 8000
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Comando para ejecutar tu aplicación de Django
-CMD ["python", "manage.py", "runserver"]
+# Aplicar las migraciones de la base de datos y recoger los archivos estáticos
+RUN python manage.py migrate
+RUN python manage.py collectstatic --noinput
+
+# Comando para ejecutar tu aplicación de Django con Gunicorn
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "config.wsgi:application"]
