@@ -26,9 +26,11 @@ COPY requirements.txt .
 
 # Actualiza pip y luego instala las dependencias de Python
 RUN set -ex && \
-    pip install --upgrade pip && \
-    pip install -r requirements.txt && \
-    rm -rf /root/.cache/
+    pip install --upgrade pip
+
+RUN set -ex && \
+    pip install -r requirements.txt
+
 
 # Copia el contenido de la aplicación al directorio de trabajo
 COPY . /code
