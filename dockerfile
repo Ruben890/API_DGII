@@ -1,15 +1,32 @@
-# Utilizamos una imagen base más ligera, como alpine, en lugar de la imagen completa de Python
-FROM python:3.10
+ARG PYTHON_VERSION=3.10-slim-buster
+ARG DEBIAN_FRONTEND=noninteractive
+ARG PORT=8000
 
-# Directorio de trabajo dentro del contenedor
-WORKDIR /app
+FROM python:${PYTHON_VERSION}
 
-# Copiar los archivos de tu proyecto al contenedor
-COPY . /app
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-# Instalar las dependencias del proyecto
-RUN pip install -r requirements.txt
-# Apply database migrations
-RUN python manage.py migrate
+RUN mkdir -p /code
+WORKDIR /code
 
+# Instalar los paquetes de Linux necesarios, ya que son dependencias de algunas bibliotecas de Python
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    gcc \
+    cron \
+    wkhtmltopdf \
+    && rm -rf /var/lib/apt/lists/*
 
+COPY requirements.txt /tmp/requirements.txt
+RUN set -ex && \
+    pip install --upgrade pip && \
+    pip install -r /tmp/requirements.txt && \
+    rm -rf /root/.cache/
+
+COPY . /code
+
+# Aplicar migraciones de Django y ejecutar el servidor de desarrollo en el inicio del contenedor
+CMD python manage.py migrate && python manage.py runserver 0.0.0.0:${PORT}
+
+EXPOSE ${PORT}
