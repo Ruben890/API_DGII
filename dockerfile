@@ -1,16 +1,19 @@
+# Define los argumentos ARG
 ARG PYTHON_VERSION=3.10-slim-buster
 ARG DEBIAN_FRONTEND=noninteractive
 ARG PORT=8000
 
+# Utiliza una imagen base de Python
 FROM python:${PYTHON_VERSION}
 
+# Configura variables de entorno
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-RUN mkdir -p /code
+# Crea el directorio de trabajo
 WORKDIR /code
 
-# Instalar los paquetes de Linux necesarios, ya que son dependencias de algunas bibliotecas de Python
+# Instala los paquetes de Linux necesarios
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     gcc \
@@ -18,19 +21,20 @@ RUN apt-get update && apt-get install -y \
     wkhtmltopdf \
     && rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt /tmp/requirements.txt
+# Copia el archivo requirements.txt al directorio de trabajo
+COPY requirements.txt .
+
+# Actualiza pip y luego instala las dependencias de Python
 RUN set -ex && \
-    pip install --upgrade pip
+    pip install --upgrade pip && \
+    pip install -r requirements.txt && \
+    rm -rf /root/.cache/
 
-RUN set -ex && \
-    pip install -r requirements.txt
-
-RUN rm -rf /root/.cache/
-
-
+# Copia el contenido de la aplicación al directorio de trabajo
 COPY . /code
 
-# Aplicar migraciones de Django y ejecutar el servidor de desarrollo en el inicio del contenedor
-CMD python manage.py migrate && python manage.py runserver 0.0.0.0:${PORT}
+# Ejecuta las migraciones de Django
+RUN python manage.py migrate
 
-EXPOSE ${PORT}
+# Inicia el servidor de desarrollo de Django
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
