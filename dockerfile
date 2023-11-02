@@ -24,11 +24,11 @@ RUN apt-get update && apt-get install -y \
 # Copia el archivo requirements.txt al directorio de trabajo
 COPY requirements.txt .
 
-# Actualiza pip y luego instala las dependencias de Python
 RUN set -ex && \
     pip install --upgrade pip
 
-RUN pip install -r requirements.txt
+RUN set -ex && \
+    pip install -r requirements.txt
 
 
 # Copia el contenido de la aplicación al directorio de trabajo
