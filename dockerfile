@@ -23,7 +23,7 @@ RUN set -ex && \
     pip install --upgrade pip
 
 RUN set -ex && \
-    pip install -r /tmp/requirements.txt
+    pip install -r requirements.txt
 
 RUN rm -rf /root/.cache/
 
