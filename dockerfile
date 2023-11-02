@@ -12,5 +12,4 @@ RUN pip install -r requirements.txt
 # Apply database migrations
 RUN python manage.py migrate
 
-# Comando para ejecutar tu aplicación de Django con Gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "config.wsgi:application"]
+
