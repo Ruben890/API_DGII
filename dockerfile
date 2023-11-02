@@ -20,9 +20,13 @@ RUN apt-get update && apt-get install -y \
 
 COPY requirements.txt /tmp/requirements.txt
 RUN set -ex && \
-    pip install --upgrade pip && \
-    pip install -r /tmp/requirements.txt && \
-    rm -rf /root/.cache/
+    pip install --upgrade pip
+
+RUN set -ex && \
+    pip install -r /tmp/requirements.txt
+
+RUN rm -rf /root/.cache/
+
 
 COPY . /code
 
