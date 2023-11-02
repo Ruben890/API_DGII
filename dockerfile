@@ -28,8 +28,7 @@ COPY requirements.txt .
 RUN set -ex && \
     pip install --upgrade pip
 
-RUN set -ex && \
-    pip install -r requirements.txt
+RUN pip install -r requirements.txt
 
 
 # Copia el contenido de la aplicación al directorio de trabajo
