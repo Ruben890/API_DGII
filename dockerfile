@@ -1,5 +1,5 @@
 # Utilizamos una imagen base más ligera, como alpine, en lugar de la imagen completa de Python
-FROM python:3.10-slim
+FROM python:3.10
 
 # Directorio de trabajo dentro del contenedor
 WORKDIR /app
@@ -8,9 +8,8 @@ WORKDIR /app
 COPY . /app
 
 # Instalar las dependencias del proyecto
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Aplicar las migraciones de la base de datos y recoger los archivos estáticos
+RUN pip install -r requirements.txt
+# Apply database migrations
 RUN python manage.py migrate
 RUN python manage.py collectstatic --noinput
 
