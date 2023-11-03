@@ -6,7 +6,7 @@ databases:
 services:
   - type: web
     name: api_dgii
-    runtime: python-3.10.6
+    runtime: python
     buildCommand: "./build.sh"
     startCommand: "gunicorn config.wsgi:application"
     envVars:
