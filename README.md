@@ -1,5 +1,5 @@
 # API_DGII
-<img src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white" />=4.2.6
+<img src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white" /><h2>4.2.6</h2>
 
 Esta API se encarga de descargar un archivo en formato TXT de la Dirección General de Impuestos Internos (DGII) y posteriormente lo procesa para almacenar su contenido en una base de datos.
 
