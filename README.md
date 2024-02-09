@@ -41,7 +41,6 @@ Esta API se encarga de descargar un archivo en formato TXT de la Dirección Gene
 
 <hr>
 
-## Sitio web
-Visita el sitio web de la API DGII (no oficial) en [https://api-dgii.onrender.com/](https://api-dgii.onrender.com/).
+
 
 ![Imagen](./img.png)
